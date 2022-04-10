@@ -15,6 +15,7 @@ import numpy as np
 from pwinput import pwinput
 from termcolor import colored as cl
 import sys
+import multiprocessing as multip
 
 # Utils
 import InstaloaderUtils as iu
