@@ -8,24 +8,16 @@ Author: Gianluca Bianco
 #############################################################
 #    Modules
 #############################################################
+
+# Standard libraries
 import instaloader as ig
 import numpy as np
 from pwinput import pwinput
 from termcolor import colored as cl
+import sys
 
-#############################################################
-#    GetUnmatches
-#############################################################
-def GetUnmatches( profile ):
-    
-    # Variables
-    index = 0
-    
-    # Get people who don't follow you back
-    for following in profile.get_followees():
-        if following not in profile.get_followers():
-            index += 1
-            print( "{}) {}".format( index, following.username ) )
+# Utils
+import InstaloaderUtils as iu
 
 #############################################################
 #    Main function
@@ -51,11 +43,17 @@ def main():
     
         # Getting metadata
         profile = ig.Profile.from_username( loader.context, username )
+        followers = iu.GetFollowers( profile )
+        followees = iu.GetFollowees( profile )
 
         # Getting the name of the accounts which don't follow you back:
         print()
         print( "This is the list of the accounts who don't follow \"{}\" back:".format( username ), end = "\n" )
-        GetUnmatches( profile )
+        unmatches = iu.GetUnmatches( followers, followees )
+        for index, account in np.ndenumerate( unmatches ):
+            print( "{}) {}".format( index[0] + 1, account.username ) )
+        
+        sys.exit()
 
 if __name__ == "__main__":
     main()
