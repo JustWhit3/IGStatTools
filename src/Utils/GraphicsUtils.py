@@ -22,9 +22,13 @@ def TogglePassword( password_entry, toggle_button ):
         toggle_button (tkinter.Button): the toggle button.
     """
     
+    # Variables
+    global eye
+    global hide
     eye = ImageTk.PhotoImage( Image.open( "../img/eye.png" ).resize( ( 30, 30 ) ) )
     hide = ImageTk.PhotoImage( Image.open( "../img/hide.png" ).resize( ( 30, 30 ) ) )
     
+    # Toggle choice
     if password_entry.cget( "show" ) == "":
         password_entry.config( show = "*" )
         toggle_button.config( image = eye )
