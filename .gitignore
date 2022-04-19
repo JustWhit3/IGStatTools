@@ -2,6 +2,8 @@
 #    Personal files
 #############################################################
 quick_setup.sh
+.vscode
+src/CheckFollowBack.py
 
 #############################################################
 #    Binary files
