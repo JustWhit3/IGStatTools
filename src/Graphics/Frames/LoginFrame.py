@@ -10,12 +10,53 @@ Author: Gianluca Bianco
 #############################################################
 
 # Standard modules
+from lib2to3.pytree import Base
 import tkinter as tk
 from PIL import ImageTk, Image
 import instaloader as ig
 
-# Utils modules
-from Utils import GraphicsUtils as gu
+#############################################################
+#    TogglePassword
+#############################################################
+def TogglePassword( password_entry, toggle_button ):
+    """
+    Function used to change visibility status while inserting a password.
+
+    Args:
+        password_entry (tkinter.Entry): the password entry.
+        toggle_button (tkinter.Button): the toggle button.
+    """
+    
+    # Variables
+    global eye
+    global hide
+    eye = ImageTk.PhotoImage( Image.open( "../img/icons/eye.png" ).resize( ( 30, 30 ) ) )
+    hide = ImageTk.PhotoImage( Image.open( "../img/icons/hide.png" ).resize( ( 30, 30 ) ) )
+    
+    # Toggle choice
+    if password_entry.cget( "show" ) == "":
+        password_entry.config( show = "*" )
+        toggle_button.config( image = eye )
+        toggle_button.image = eye
+    else:
+        password_entry.config( show = "" )
+        toggle_button.config( image = hide )
+        toggle_button.image = hide
+        
+#############################################################
+#    SwitchToPasswd
+#############################################################
+def SwitchToPasswd( username_input, password_input ):
+    """
+    Function used to switch from username to password input.
+
+    Args:
+        username_input (tkinter.Entry): the username entry.
+        password_input (tkinter.Entry): the password entry.
+    """
+    
+    if username_input.get() != "":
+        password_input.focus_set()
 
 #############################################################
 #    Login
@@ -38,6 +79,13 @@ def Login( frame, username_input, password_input, chosen_font ):
     loader = ig.Instaloader()
     username = username_input.get()
     password = password_input.get()
+    global exception_label
+    
+    # Reset exception label
+    try:
+        exception_label.destroy()
+    except BaseException:
+        pass
     
     # Doing login
     try:
@@ -86,16 +134,37 @@ def Login( frame, username_input, password_input, chosen_font ):
         exception_label = tk.Label( frame, text = e, font = chosen_font )
         exception_label.place( anchor = "center", relx = 0.5, rely = 0.6 )
         exception_label.config( fg = "red" )
+        
+#############################################################
+#    RestartProgram
+#############################################################
+def RestartProgram( frame ):
+    """
+    Function used to restart a frame.
+
+    Args:
+        frame (tkinter.Frame): the frame to be restarted.
+    """
+    
+    LoginFrame( frame )
+    try:
+        exception_label.destroy()
+    except BaseException:
+        pass
 
 #############################################################
 #    LoginFrame
 #############################################################
-def LoginFrame(login_frame):
+def LoginFrame( login_frame ):
     
     # Variables
     global eye_img
+    global refresh_img
     
-    # Login frame and label
+    # Frame settings
+    login_frame.config( highlightbackground = "black", highlightthickness = 4 )
+    
+    # Log in label
     chosen_font = ( "Helvetica", 15 )
     login_label = tk.Label( login_frame, text = "Log in", font = ( "Helvetica", 25 ) )
     login_label.place( anchor = "center", relx = 0.5, rely = 0.37 )
@@ -113,17 +182,24 @@ def LoginFrame(login_frame):
     password_input = tk.Entry( login_frame, font = chosen_font  )
     password_input.place( anchor = "center", relx = 0.56, rely = 0.5 )
     password_input.config( show = "*" )
-    eye_img = ImageTk.PhotoImage( Image.open( "../img/eye.png" ).resize( ( 30, 30 ) ) )
+    eye_img = ImageTk.PhotoImage( Image.open( "../img/icons/eye.png" ).resize( ( 30, 30 ) ) )
     toggle_button = tk.Button( login_frame, image = eye_img )
-    toggle_password = lambda: gu.TogglePassword( password_input, toggle_button )
-    toggle_button.place( anchor = "center", relx = 0.675, rely = 0.5 )
+    toggle_password = lambda: TogglePassword( password_input, toggle_button )
+    toggle_button.place( anchor = "center", relx = 0.67, rely = 0.5 )
     toggle_button.config( command = toggle_password, cursor = "hand2", highlightthickness = 0, bd = 0, bg = "white" )
     
     # Login into account
     login = lambda event = 0: Login( login_frame, username_input, password_input, chosen_font )
-    SwitchToPasswd = lambda event = 0: gu.SwitchToPasswd( username_input, password_input )
-    username_input.bind( "<Return>", SwitchToPasswd )
+    switch_to_passwd = lambda event = 0: SwitchToPasswd( username_input, password_input )
+    username_input.bind( "<Return>", switch_to_passwd )
     password_input.bind( "<Return>", login )
     login_button = tk.Button( login_frame, text = "Authenticate", font = chosen_font, command = login )
     login_button.place( anchor = "center", relx = 0.5, rely = 0.55 )
     login_button.config( cursor = "hand2", width = 30, padx = -10, bg = "black", fg = "white" )
+    
+    # Refresh button
+    refresh_img = ImageTk.PhotoImage( Image.open( "../img/icons/refresh.png" ).resize( ( 60, 60 ) ) )
+    restart_program = lambda: RestartProgram( login_frame )
+    refresh_button = tk.Button( login_frame, image = refresh_img )
+    refresh_button.place( anchor = "ne", relx = 1, rely = 0 )
+    refresh_button.config( command = restart_program, cursor = "hand2", highlightthickness = 0, bd = 0 )

@@ -32,13 +32,16 @@ def main():
     RootWindow( root )
     
     # Logo frame settings
-    logo_frame = tk.Frame( root, width = 1700, height = 1600 )
+    logo_frame = tk.Frame( root, width = 1800, height = 1500 )
     LogoFrame( logo_frame )
     
     # Login frame settings
-    login_frame = tk.Frame( root, width = 1700, height = 1600 )
+    login_frame = tk.Frame( root, width = 1800, height = 1500 )
     LoginFrame( login_frame )
-    root.after( 1000, login_frame.pack )
+    time_passed = 0000
+    root.after( time_passed, logo_frame.destroy )
+    login_frame_pos = lambda: login_frame.place( anchor = "center", relx = 0.5, rely = 0.5 )
+    root.after( time_passed, login_frame_pos )
     profile = iu.profile_ID
     
     # Displaying graphics

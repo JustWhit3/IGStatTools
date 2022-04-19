@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/JustWhit3/IGStatTools/blob/main/img/logo.svg" height=220></p>
+<p align="center"><img src="https://github.com/JustWhit3/IGStatTools/blob/main/img/images/logo.svg" height=220></p>
 
 <h3 align="center">An app to retrive general statistics about an Instagram profile, using the Instaloader API.</h3>
 <p align="center">
