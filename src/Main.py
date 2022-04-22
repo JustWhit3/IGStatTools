@@ -42,7 +42,6 @@ def main():
     root.after( time_passed, logo_frame.destroy )
     login_frame_pos = lambda: login_frame.place( anchor = "center", relx = 0.5, rely = 0.5 )
     root.after( time_passed, login_frame_pos )
-    profile = iu.profile_ID
     
     # Displaying graphics
     root.mainloop()
