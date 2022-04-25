@@ -14,7 +14,7 @@ import tkinter as tk
 from PIL import ImageTk, Image
 import instaloader as ig
 import threading
-import numpy as np
+import os
 
 # Utils modules
 from Utils import GraphicsUtils as gu
@@ -113,7 +113,6 @@ def Login( frame, username_input, password_input, chosen_font ):
     global twofactor_input
     global twofactor_login
     global twofactor_label
-    global profile_ID
     
     # Reset exception label
     try:
@@ -131,18 +130,20 @@ def Login( frame, username_input, password_input, chosen_font ):
             raise BaseException( "Error: you forgot to insert username and password." )
         else:
             loader.login( username, password )
-            profile_ID = ig.Profile.from_username( loader.context, username )
+            if checkbutton_var.get() == 1:
+                loader.save_session_to_file( ".{}-session_cookies".format( username ) )
+            frame.place_forget()
             
     # Exception for two-factor authentication
     except ig.exceptions.TwoFactorAuthRequiredException as e:
         exception_label = tk.Label( frame, text = e, font = chosen_font )
-        exception_label.place( anchor = "center", relx = 0.5, rely = 0.60 )
+        exception_label.place( anchor = "center", relx = 0.5, rely = 0.65 )
         exception_label.config( fg = "red" )
         
         twofactor_label = tk.Label( frame, text = "Code(*):", font = chosen_font )
-        twofactor_label.place( anchor = "center", relx = 0.36, rely = 0.65 )
+        twofactor_label.place( anchor = "center", relx = 0.38, rely = 0.70 )
         twofactor_input = tk.Entry( frame, font = chosen_font  )
-        twofactor_input.place( anchor = "center", relx = 0.56, rely = 0.65 )
+        twofactor_input.place( anchor = "center", relx = 0.56, rely = 0.70 )
         twofactor_input.focus_set()
         
         twofactor_message = "(*) Insert two-factor authentication code received by message/app."
@@ -168,17 +169,19 @@ def Login( frame, username_input, password_input, chosen_font ):
             if twofactor_input.get() != "":
                 try:
                     loader.two_factor_login( twofactor_code )
-                    profile_ID = ig.Profile.from_username( loader.context, username )
+                    if checkbutton_var.get() == 1:
+                        loader.save_session_to_file( ".session_cookies" )
+                    frame.place_forget()
                 except BaseException as e:
                     exception_twof_label = tk.Label( frame, text = e, font = chosen_font )
-                    exception_twof_label.place( anchor = "center", relx = 0.5, rely = 0.75 )
+                    exception_twof_label.place( anchor = "center", relx = 0.5, rely = 0.80 )
                     exception_twof_label.config( fg = "red" )
                     
             spinner_gif.place_forget()
                     
         def TwoFactorLogin( event = 0 ):
             spinner_gif.place_forget()
-            spinner_gif.place( anchor = "center", relx = 0.71, rely = 0.7 )
+            spinner_gif.place( anchor = "center", relx = 0.70, rely = 0.75 )
             threading.Thread( target = two_factor_login ).start()
         
         twofactor_input.bind( "<Return>", TwoFactorLogin )
@@ -186,12 +189,12 @@ def Login( frame, username_input, password_input, chosen_font ):
         password_input.bind( "<Down>", lambda event: twofactor_input.focus_set() )
         twofactor_input.bind( "<Up>", lambda event: password_input.focus_set() )
         twofactor_login = tk.Button( frame, text = "Authenticate with two-factor code", font = chosen_font, command = TwoFactorLogin )
-        twofactor_login.place( anchor = "center", relx = 0.5, rely = 0.7 )
-        twofactor_login.config( cursor = "hand2", width = 30, bg = "black", fg = "white" )
+        twofactor_login.place( anchor = "center", relx = 0.5, rely = 0.75 )
+        twofactor_login.config( cursor = "hand2", width = 29, bg = "black", fg = "white" )
         
     except BaseException as e:
         exception_label = tk.Label( frame, text = e, font = chosen_font )
-        exception_label.place( anchor = "center", relx = 0.5, rely = 0.6 )
+        exception_label.place( anchor = "center", relx = 0.5, rely = 0.65 )
         exception_label.config( fg = "red" )
         
     spinner_gif.place_forget()
@@ -200,6 +203,12 @@ def Login( frame, username_input, password_input, chosen_font ):
 #    LoginFrame
 #############################################################
 def LoginFrame( login_frame ):
+    """
+    Main function used to set the login_frame settings.
+
+    Args:
+        login_frame (tkinter.Frame): the corresponding tkinter frame.
+    """
     
     # Variables
     global eye_img
@@ -208,6 +217,7 @@ def LoginFrame( login_frame ):
     global spinner_gif
     
     # Frame settings
+    login_frame.place( anchor = "center", relx = 0.5, rely = 0.5 )
     login_frame.config( highlightbackground = "black", highlightthickness = 4 )
     
     # Progress spinner settings
@@ -221,14 +231,14 @@ def LoginFrame( login_frame ):
     
     # Username label and input
     username_label = tk.Label( login_frame, text = "Username:", font = chosen_font )
-    username_label.place( anchor = "center", relx = 0.36, rely = 0.45 )
+    username_label.place( anchor = "center", relx = 0.37, rely = 0.45 )
     username_input = tk.Entry( login_frame, font = chosen_font )
     username_input.place( anchor = "center", relx = 0.56, rely = 0.45 )
     username_input.focus_set()
     
     # Password label and input (with toggle)
     password_label = tk.Label( login_frame, text = "Password:", font = chosen_font )
-    password_label.place( anchor = "center", relx = 0.36, rely = 0.5 )
+    password_label.place( anchor = "center", relx = 0.37, rely = 0.5 )
     password_input = tk.Entry( login_frame, font = chosen_font  )
     password_input.place( anchor = "center", relx = 0.56, rely = 0.5 )
     password_input.config( show = "*" )
@@ -252,6 +262,21 @@ def LoginFrame( login_frame ):
     login_button = tk.Button( login_frame, text = "Authenticate", font = chosen_font, command = login )
     login_button.place( anchor = "center", relx = 0.5, rely = 0.55 )
     login_button.config( cursor = "hand2", width = 30, padx = -10, bg = "black", fg = "white" )
+    
+    # Remember login button
+    remember_login_label = tk.Label( login_frame, text = "Remember me", font = ( "Helvetica", 10 ) )
+    remember_login_label.place( anchor = "center", relx = 0.51, rely = 0.6 )
+    remember_login_label.config( highlightthickness = 0, bd = 0 )
+    button_size = ( 20, 20 )
+    global checkbutton_var
+    checkbutton_var = tk.IntVar()
+    checkbutton_img = ImageTk.PhotoImage( Image.open( "../img/icons/checkbutton.png" ).resize( button_size) )
+    checkbutton_img_tick = ImageTk.PhotoImage( Image.open( "../img/icons/checkbutton_tick.png" ).resize( button_size ) )
+    remember_login_checkbutton = tk.Checkbutton( login_frame, variable = checkbutton_var, onvalue = 1, offvalue = 0, command = None )
+    remember_login_checkbutton.place( anchor = "center", relx = 0.45, rely = 0.598 )
+    remember_login_checkbutton.config( indicatoron = False, image = checkbutton_img, selectimage = checkbutton_img_tick, cursor = "hand2", highlightthickness = 0, bd = 0, bg = "white" )
+    remember_login_checkbutton.image = checkbutton_img
+    remember_login_checkbutton.selectimage = checkbutton_img_tick
     
     # Refresh button
     refresh_img = ImageTk.PhotoImage( Image.open( "../img/icons/refresh.png" ).resize( ( 60, 60 ) ) )

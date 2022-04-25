@@ -11,6 +11,8 @@ Author: Gianluca Bianco
 
 # Standard modules
 import tkinter as tk
+import os
+import glob
 
 # Utils modules
 from Utils import InstaloaderUtils as iu
@@ -21,6 +23,7 @@ from Graphics.Windows.RootWindow import RootWindow
 # Load frames
 from Graphics.Frames.LoginFrame import LoginFrame
 from Graphics.Frames.LogoFrame import LogoFrame
+from Graphics.Frames.MenuFrame import MenuFrame
 
 #############################################################
 #    Main function
@@ -31,17 +34,25 @@ def main():
     root = tk.Tk()
     RootWindow( root )
     
-    # Logo frame settings
+    # Frame creations for hierarchy
+    menu_frame = tk.Frame( root, width = 1800, height = 1500 )
+    login_frame = tk.Frame( root, width = 1800, height = 1500 )
     logo_frame = tk.Frame( root, width = 1800, height = 1500 )
+    
+    # Logo frame settings
     LogoFrame( logo_frame )
     
     # Login frame settings
-    login_frame = tk.Frame( root, width = 1800, height = 1500 )
     LoginFrame( login_frame )
-    time_passed = 0000
-    root.after( time_passed, logo_frame.destroy )
-    login_frame_pos = lambda: login_frame.place( anchor = "center", relx = 0.5, rely = 0.5 )
-    root.after( time_passed, login_frame_pos )
+    login_time_passed = 0000
+    root.after( login_time_passed, logo_frame.destroy )
+    
+    for session_file in glob.glob( ".*session_cookies" ):
+        if os.path.exists( session_file ):
+            login_frame.place_forget()
+    
+    # Menu frame settings
+    MenuFrame( menu_frame )
     
     # Displaying graphics
     root.mainloop()

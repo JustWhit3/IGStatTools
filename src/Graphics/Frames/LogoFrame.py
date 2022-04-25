@@ -13,6 +13,9 @@ Author: Gianluca Bianco
 import tkinter as tk
 from PIL import ImageTk, Image
 
+# Utils Libraries
+from Utils import GraphicsUtils as gu
+
 #############################################################
 #    LogoFrame
 #############################################################
@@ -35,4 +38,10 @@ def LogoFrame( logo_frame ):
     logo_img = ImageTk.PhotoImage( Image.open( "../img/images/logo.png" ).resize( ( 1000, 700 ) ) )
     logo_label = tk.Label( logo_frame, image = logo_img )
     logo_label.place( anchor = "center",relx = 0.50, rely = 0.50 )
+    
+    # Progress spinner settings
+    spinner_gif = gu.ImageLabel( logo_frame )
+    spinner_gif.load( "../img/icons/spinner.gif", width = 100, height = 100 )
+    spinner_gif.place( anchor = "center", relx = 0.5, rely = 0.80 )
+    
     
