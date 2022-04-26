@@ -14,9 +14,6 @@ import tkinter as tk
 import os
 import glob
 
-# Utils modules
-from Utils import InstaloaderUtils as iu
-
 # Load Windows
 from Graphics.Windows.RootWindow import RootWindow
 
@@ -47,7 +44,7 @@ def main():
     login_time_passed = 0000
     root.after( login_time_passed, logo_frame.destroy )
     
-    for session_file in glob.glob( ".*session_cookies" ):
+    for session_file in glob.glob( "*/.session_cookies" ):
         if os.path.exists( session_file ):
             login_frame.place_forget()
     

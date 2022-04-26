@@ -14,7 +14,6 @@ import tkinter as tk
 from PIL import ImageTk, Image
 import instaloader as ig
 import threading
-import os
 
 # Utils modules
 from Utils import GraphicsUtils as gu
@@ -131,7 +130,7 @@ def Login( frame, username_input, password_input, chosen_font ):
         else:
             loader.login( username, password )
             if checkbutton_var.get() == 1:
-                loader.save_session_to_file( ".{}-session_cookies".format( username ) )
+                loader.save_session_to_file( "{}/.session_cookies".format( username ) )
             frame.place_forget()
             
     # Exception for two-factor authentication
@@ -170,7 +169,7 @@ def Login( frame, username_input, password_input, chosen_font ):
                 try:
                     loader.two_factor_login( twofactor_code )
                     if checkbutton_var.get() == 1:
-                        loader.save_session_to_file( ".session_cookies" )
+                        loader.save_session_to_file( "{}/.session_cookies".format( username ) )
                     frame.place_forget()
                 except BaseException as e:
                     exception_twof_label = tk.Label( frame, text = e, font = chosen_font )
