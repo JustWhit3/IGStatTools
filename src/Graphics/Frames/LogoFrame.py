@@ -19,29 +19,46 @@ from Utils import GraphicsUtils as gu
 #############################################################
 #    LogoFrame
 #############################################################
-def LogoFrame( logo_frame ):
+class LogoFrame( tk.Frame ):
     """
-    Function used to set the logo frame.
+    Logo frame class.
 
     Args:
-        logo_frame (tkinter.Frame): the logo frame object.
+        tk (tkinter.Frame): inherit from tkinter.Frame class.
     """
-
-    # Variables
-    global logo_img
-
-    # Frame settings
-    logo_frame.place( anchor = "center", relx = 0.5, rely = 0.5 )
-    logo_frame.config( highlightbackground = "black", highlightthickness = 4 )
     
-    # Logo settings
-    logo_img = ImageTk.PhotoImage( Image.open( "../img/images/logo.png" ).resize( ( 1000, 700 ) ) )
-    logo_label = tk.Label( logo_frame, image = logo_img )
-    logo_label.place( anchor = "center",relx = 0.50, rely = 0.50 )
-    
-    # Progress spinner settings
-    spinner_gif = gu.ImageLabel( logo_frame )
-    spinner_gif.load( "../img/icons/spinner.gif", width = 100, height = 100 )
-    spinner_gif.place( anchor = "center", relx = 0.5, rely = 0.80 )
+    def __init__( self, window ):
+        """
+        Main constructor of the class.
+
+        Args:
+            window (tkinter.Tk): the window hosting the frame.
+        """
+        
+        super().__init__( window )
+        self[ "width" ] = 1800
+        self[ "height" ] = 1500
+        self.config( highlightbackground = "black", highlightthickness = 4 )
+        self.__create_widgets()
+        self.place( anchor = "center", relx = 0.5, rely = 0.5 )
+        self.after( 1000, self.destroy ) 
+
+    #############################################################
+    #    __create_widgets
+    #############################################################
+    def __create_widgets( self ):
+        """
+        Method used to create main widgets of the frame.
+        """
+        
+        # Logo image
+        self.logo_img = ImageTk.PhotoImage( Image.open( "../img/images/logo.png" ).resize( ( 1000, 700 ) ) )
+        self.logo_label = tk.Label( self, image = self.logo_img )
+        self.logo_label.place( anchor = "center",relx = 0.50, rely = 0.50 )
+
+        # Progress spinner
+        self.spinner_gif = gu.ImageLabel( self )
+        self.spinner_gif.load( "../img/icons/spinner.gif", width = 100, height = 100 )
+        self.spinner_gif.place( anchor = "center", relx = 0.5, rely = 0.80 )
     
     

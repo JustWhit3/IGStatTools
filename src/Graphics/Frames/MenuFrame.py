@@ -18,41 +18,73 @@ from PIL import ImageTk, Image
 import os
 
 #############################################################
-#    Loading
-#############################################################
-def Loading( menu_frame ):
-    
-    # Variables
-    username = ""
-    loader = ig.Instaloader()
-    global profile
-    
-    # Loading instagram profile info
-    for session_file in glob.glob( "*/.session_cookies" ):
-        username = session_file.split( "/" )[0]
-        loader.load_session_from_file( username, filename = session_file )
-    profile = ig.Profile.from_username( loader.context, username )
-    
-    # Placing basic profile info on the screen   
-    loader.download_profilepic( profile )            
-    for profile_pic in glob.glob( "*/*profile_pic.jpg" ):
-        profile_img = ImageTk.PhotoImage( Image.open( profile_pic ) )
-            
-    profile_img_label = tk.Label( menu_frame, image = profile_img )
-    profile_img_label.image = profile_img
-    profile_img_label.place( anchor = "center", relx = 0.5, rely = 0.5 )
-
-#############################################################
 #    MenuFrame
 #############################################################
-def MenuFrame( menu_frame ):
+class MenuFrame( tk.Frame ):
+    """
+    Class used to create the Menu frame.
+
+    Args:
+        tk (tkinter.Frame): inherits from tkinter.Frame class.
+    """
     
-    # Variables
-    chosen_font = ( "Helvetica", 15 )
-    
-    # Frame settings
-    menu_frame.place( anchor = "center", relx = 0.5, rely = 0.5 )
-    menu_frame.config( highlightbackground = "black", highlightthickness = 4 )
-    
-    # Loading main profile information on the frame
-    threading.Thread( target = Loading, args = ( menu_frame, ) ).start()
+    def __init__( self, window ):
+        
+        super().__init__( window )
+        self.chosen_font = ( "Helvetica", 15 )
+        self[ "width" ] = 1800
+        self[ "height" ] = 1500
+        self.config( highlightbackground = "black", highlightthickness = 4 )
+        self.place( anchor = "center", relx = 0.5, rely = 0.5 )
+        
+        if glob.glob( "*/.session_cookies" ):
+            self.Load( "on" )
+        
+    #############################################################
+    #    Load
+    #############################################################
+    def Load( self, save ):
+        """
+        Method used to load instagram profile information from Loading function.
+        """
+
+        self.save = save
+        threading.Thread( target = self.Loading ).start()
+        
+    def Loading( self ):
+        """
+        Method used to load instagram profile information
+        """
+
+        # Variables
+        username = ""
+        self.loader = ig.Instaloader()
+
+        # Loading instagram profile info
+        if self.save == "on":
+            for session_file in glob.glob( "*/.session_cookies" ):
+                username = session_file.split( "/" )[0]
+                self.loader.load_session_from_file( username, filename = session_file )
+            self.profile = ig.Profile.from_username( self.loader.context, username )
+        elif self.save == "off":
+            pass 
+        
+        # Other settings
+        self.tkraise()
+        self.__create_widgets()          
+
+    #############################################################
+    #    __create_widgets
+    #############################################################
+    def __create_widgets( self ):
+        """
+        Method used to create basic frame widgets.
+        """
+
+        # placing profile pic at the center of the screen
+        self.loader.download_profilepic( self.profile )  
+        for profile_pic in glob.glob( "*/*profile_pic.jpg" ):
+            self.profile_img = ImageTk.PhotoImage( Image.open( profile_pic ) )
+        self.profile_img_label = tk.Label( self, image = self.profile_img )
+        self.profile_img_label[ "image" ] = self.profile_img
+        self.profile_img_label.place( anchor = "center", relx = 0.5, rely = 0.5 )
