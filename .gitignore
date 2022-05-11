@@ -4,6 +4,7 @@
 quick_setup.sh
 .vscode
 src/CheckFollowBack.py
+src/Utils/import_firefox_session.py
 **/x_vaaaa
 
 #############################################################

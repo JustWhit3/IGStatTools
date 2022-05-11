@@ -15,7 +15,9 @@ import instaloader as ig
 import glob
 import threading
 from PIL import ImageTk, Image
-import os
+
+# Utils libraries
+from Utils import GraphicsUtils as gu
 
 #############################################################
 #    MenuFrame
@@ -36,6 +38,8 @@ class MenuFrame( tk.Frame ):
         self[ "height" ] = 1500
         self.config( highlightbackground = "black", highlightthickness = 4 )
         self.place( anchor = "center", relx = 0.5, rely = 0.5 )
+        self.spinner_gif = gu.ImageLabel( self )
+        self.spinner_gif.load( "../img/icons/spinner.gif", width = 80, height = 80 )
         
         if glob.glob( "*/.session_cookies" ):
             self.Load( "on" )
@@ -49,6 +53,7 @@ class MenuFrame( tk.Frame ):
         """
 
         self.save = save
+        self.spinner_gif.place( anchor = "center", relx = 0.975, rely = 0.97 )
         threading.Thread( target = self.Loading ).start()
         
     def Loading( self ):
@@ -67,11 +72,15 @@ class MenuFrame( tk.Frame ):
                 self.loader.load_session_from_file( username, filename = session_file )
             self.profile = ig.Profile.from_username( self.loader.context, username )
         elif self.save == "off":
-            pass 
+            pass
+        
+        # Downloading useful information
+        self.loader.download_profilepic( self.profile )
         
         # Other settings
         self.tkraise()
-        self.__create_widgets()          
+        self.__create_widgets()
+        self.spinner_gif.place_forget()    
 
     #############################################################
     #    __create_widgets
@@ -82,9 +91,9 @@ class MenuFrame( tk.Frame ):
         """
 
         # placing profile pic at the center of the screen
-        self.loader.download_profilepic( self.profile )  
         for profile_pic in glob.glob( "*/*profile_pic.jpg" ):
             self.profile_img = ImageTk.PhotoImage( Image.open( profile_pic ) )
+            break
         self.profile_img_label = tk.Label( self, image = self.profile_img )
         self.profile_img_label[ "image" ] = self.profile_img
         self.profile_img_label.place( anchor = "center", relx = 0.5, rely = 0.5 )

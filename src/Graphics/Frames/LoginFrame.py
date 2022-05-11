@@ -102,15 +102,15 @@ class LoginFrame( tk.Frame ):
         self.login_button.config( cursor = "hand2", width = 30, padx = -10, bg = "black", fg = "white" )
 
         # Remember login button
-        self.remember_login_label = tk.Label( self, text = "Remember me", font = ( "Helvetica", 10 ) )
-        self.remember_login_label.place( anchor = "center", relx = 0.51, rely = 0.6 )
+        self.remember_login_label = tk.Label( self, text = "Remember me", font = ( "Helvetica", 13 ) )
+        self.remember_login_label.place( anchor = "center", relx = 0.515, rely = 0.6 )
         self.remember_login_label.config( highlightthickness = 0, bd = 0 )
-        self.button_size = ( 20, 20 )
+        self.button_size = ( 30, 30 )
         self.checkbutton_var = tk.IntVar()
         self.checkbutton_img = ImageTk.PhotoImage( Image.open( "../img/icons/checkbutton.png" ).resize( self.button_size) )
         self.checkbutton_img_tick = ImageTk.PhotoImage( Image.open( "../img/icons/checkbutton_tick.png" ).resize( self.button_size ) )
         self.remember_login_checkbutton = tk.Checkbutton( self, variable = self.checkbutton_var, onvalue = 1, offvalue = 0, command = None )
-        self.remember_login_checkbutton.place( anchor = "center", relx = 0.45, rely = 0.598 )
+        self.remember_login_checkbutton.place( anchor = "center", relx = 0.435, rely = 0.598 )
         self.remember_login_checkbutton.config( indicatoron = False, image = self.checkbutton_img, selectimage = self.checkbutton_img_tick, cursor = "hand2", highlightthickness = 0, bd = 0, bg = "white" )
         self.remember_login_checkbutton[ "image" ] = self.checkbutton_img
         self.remember_login_checkbutton[ "selectimage" ] = self.checkbutton_img_tick
@@ -190,7 +190,7 @@ class LoginFrame( tk.Frame ):
                     event (int, optional): variable used to enable the button. Defaults to 0.
                 """
 
-                twofactor_code = self.twofactor_input.get()
+                twofactor_code = int( self.twofactor_input.get() )
 
                 try:
                     self.exception_twof_label.destroy()
