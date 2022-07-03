@@ -1,6 +1,6 @@
 <p align="center"><img src="https://github.com/JustWhit3/IGStatTools/blob/main/img/images/logo.svg" height=220></p>
 
-<h3 align="center">An app to retrieve general statistics about an Instagram profile, using the Instaloader API and Tkinter for GUI.</h3>
+<h3 align="center">An app to retrieve general statistics about an Instagram profile using the Instaloader API.</h3>
 <p align="center">
     <img title="v0.0" alt="v0.0" src="https://img.shields.io/badge/version-v0.0-informational?style=flat-square"
     <a href="LICENSE">
