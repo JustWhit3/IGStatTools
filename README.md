@@ -10,32 +10,8 @@
 	<img title="Code size" alt="code size" src="https://img.shields.io/github/languages/code-size/JustWhit3/IGStatTools?color=red">
 	<img title="Repo size" alt="repo size" src="https://img.shields.io/github/repo-size/JustWhit3/IGStatTools?color=red">
 	<img title="Lines of code" alt="total lines" src="https://img.shields.io/tokei/lines/github/JustWhit3/IGStatTools?color=red">
+  <img title="codeq" alt="codeq" src="https://github.com/JustWhit3/IGStatTools/actions/workflows/codeql-analysis.yml/badge.svg">
+  <img title="doc" alt="doc" src="https://github.com/JustWhit3/IGStatTools/actions/workflows/DocGenerator.yml/badge.svg">
 </p>
 
-## Table of contents
-
-- [Introduction](#introduction)
-
-## Introduction
-
-Spiegare che ho fatto l'app perchè non mi fidavo delle altre e questa invece è sicura.
-
-Supporta anche l'autenticazione a due fattori.
-
-## Requirements
-
-Inserire anche virtualenv e python3
-
-
-## Commands
-
-Tutta la window:
-
-- Ctrl+z: chiudi la window.
-
-Nel login:
-
- - Muoversi con le freccette.
- - Enter per loggare.
- - Ctrl+c per mostrare la password.
- - Esc: refresha.
+# Work in progress...
