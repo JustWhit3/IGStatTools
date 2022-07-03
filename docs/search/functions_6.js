@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['next_5fframe_150',['next_frame',['../classGraphicsUtils_1_1ImageLabel.html#a5af9bcf9427a77747ce9750a9d58e8aa',1,'GraphicsUtils::ImageLabel']]]
+  ['restartprogram_145',['RestartProgram',['../classLoginFrame_1_1LoginFrame.html#a52cc018f0b7fc4e7a0a71f7492e2322f',1,'LoginFrame::LoginFrame']]]
 ];

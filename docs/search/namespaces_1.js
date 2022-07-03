@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['genericutils_124',['GenericUtils',['../namespaceGenericUtils.html',1,'']]],
-  ['graphicsutils_125',['GraphicsUtils',['../namespaceGraphicsUtils.html',1,'']]]
+  ['instaloaderutils_122',['InstaloaderUtils',['../namespaceInstaloaderUtils.html',1,'']]]
 ];

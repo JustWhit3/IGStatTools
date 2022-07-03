@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['loginframe_2epy_135',['LoginFrame.py',['../LoginFrame_8py.html',1,'']]],
-  ['logoframe_2epy_136',['LogoFrame.py',['../LogoFrame_8py.html',1,'']]]
+  ['menuframe_2epy_132',['MenuFrame.py',['../MenuFrame_8py.html',1,'']]]
 ];
