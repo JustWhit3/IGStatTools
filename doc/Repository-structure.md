@@ -20,6 +20,18 @@ osmanip/
 │   │   │   ├── LogoFrame.py
 │   │   │   ├── Menuframe.py
 │   │   ├── Windows/
+│   │   │   ├── RootWindow.py
 │   │   ├── graphics/
 │   ├── Utils/
+│   │   ├── GenericUtils.py
+│   │   ├── GraphicsUtils.py
+│   │   ├── InstaloaderUtils.py
+│   ├── Main.py
+├── .all-contributorsrc
+├── .gitignore
+├── CITATION.cff
+├── Doxyfile
+├── LICENSE
+├── README.md
+├── .gitignore
 ```
