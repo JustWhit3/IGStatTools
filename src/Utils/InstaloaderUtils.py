@@ -11,72 +11,80 @@ Author: Gianluca Bianco
 import numpy as np
 
 #############################################################
-#    GetFollowers
+#    GetPosts
 #############################################################
-def GetFollowers( profile ):
+def GetObjects( objects ):
     """
-    Function used to compute an array of followers of a given profile.
+    Function used to compute an array of objects of a given profile.
 
     Args:
-        profile (instaloader.Instaloader.Profile): the interested profile.
+        objects (any): a generic object from the Profile class.
 
     Returns:
-        numpy.array: returns an array of instaloader.Instaloader.profile.
+        numpy.array: returns an array of instaloader.Instaloader objects.
     """
     
     # Variables
-    followers = np.array( [] )
-    
-    # Getting the array of followers of a profile:
-    for follower in profile.get_followers():
-        followers = np.append( followers, follower )
-        
-    return followers
-
-#############################################################
-#    GetFollowees
-#############################################################
-def GetFollowees( profile ):
-    """
-    Function used to compute an array of followees of a given profile.
-
-    Args:
-        profile (instaloader.Instaloader.Profile): the interested profile.
-
-    Returns:
-        numpy.array: returns an array of instaloader.Instaloader.profile.
-    """
-    
-    # Variables
-    followees = np.array( [] )
+    objects_array = np.array( [] )
     
     # Getting the array of followees of a profile:
-    for following in profile.get_followees():
-        followees = np.append( followees, following )
+    for object in objects:
+        objects_array = np.append( objects_array, object )
         
-    return followees
+    return objects_array
 
 #############################################################
-#    GetUnmatches
+#    GetTotalLikes
 #############################################################
-def GetUnmatches( followers, followees ):
+def GetTotalLikesComments( profile ):
     """
-    Function used to compute an array of accounts who don't follow back a given profile.
+    Method used to get total likes of a profile.
 
     Args:
-        followers (numpy.array): the array of followers of a profile.
-        following (numpy.array): the array of following of a profile.
-
+        profile (instaloader.Instaloader.Profile): profile object.
+        
     Returns:
-        numpy.array: returns an array of instaloader.Instaloader.profile.
+        int: total number of profile likes.
+        int: total number of profile comments.
     """
     
     # Variables
-    unmatches = np.array( [] )
+    total_likes = 0
+    total_comments = 0
     
-    # Get people who don't follow you back
-    for following in followees:
-        if following not in followers:
-            unmatches = np.append( unmatches, following )
-            
-    return unmatches
+    # Getting total number of likes and comments
+    for post in profile.get_posts():
+        for like in post.get_likes():
+            total_likes += 1
+        for comment in post.get_comments():
+            total_comments += 1
+    
+    return total_likes, total_comments
+
+#############################################################
+#    GetTotalPhotosVideos
+#############################################################
+def GetTotalPhotosVideos( profile ):
+    """
+    Method used to get total photos number of a profile.
+
+    Args:
+        profile (instaloader.Instaloader.Profile): profile object.
+        
+    Returns:
+        int: total number of profile photos.
+        int: total number of profile videos.
+    """
+    
+    # Variables
+    total_photos = 0
+    total_videos = 0
+    
+    # Getting total number of photos and videos
+    for post in profile.get_posts():
+        if post.typename == "GraphImage":
+            total_photos += 1
+        elif post.typename == "GraphVideo":
+            total_videos += 1
+    
+    return total_photos, total_videos

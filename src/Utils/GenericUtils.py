@@ -13,25 +13,39 @@ import doctest
 #############################################################
 #    StringToPicNum
 #############################################################
-def StringToPicNum( pic_string_name ):
+def Score( followers_count, followees_count ):
     """
-    Function used to convert a pic name into a number.
+    Function used to compute personal score for instagram profile.
 
     Args:
-        pic_string_name (str): picture name.
+        followers_count (int): number of followers of a profile.
+        followees_count (_type_): number of followees of a profile.
 
     Returns:
-        int: the converted number.
+        str: score of the profile.
         
     Testing:
-        >>> StringToPicNum( "2019-04-12_09-10-13_UTC_profile_pic" )
-        20190412091013
+        >>> Score( 300, 300 )
+        'C'
+        >>> Score( 200, 400 )
+        'E'
+        >>> Score( 200, 600 )
+        'F'
+        >>> Score( 1900, 560 )
+        'S'
     """
     
-    pic_num = pic_string_name.split( "_" )[0] + pic_string_name.split( "_" )[1]
-    pic_num = int( pic_num.replace( "-", "" ) )
+    # Variables
+    score = round( followers_count / followees_count * 10, 2 )
     
-    return pic_num
+    # Computing the score
+    if score in range( 9, 11 ): return "C"
+    elif score in range( 7, 9 ): return "D"
+    elif score in range( 5, 7 ): return "E"
+    elif score < 5: return "F"
+    elif score in range( 11, 13 ): return "B"
+    elif score in range( 13, 15 ): return "A"
+    elif score > 15: return "S"
 
 #############################################################
 #    Main program
