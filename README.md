@@ -1,3 +1,5 @@
+# Work in progress...
+
 <p align="center"><img src="https://github.com/JustWhit3/IGStatTools/blob/main/img/images/logo.svg" height=220></p>
 
 <h3 align="center">An app to retrieve general statistics about an Instagram profile using the Instaloader API.</h3>
@@ -14,7 +16,10 @@
   <img title="doc" alt="doc" src="https://github.com/JustWhit3/IGStatTools/actions/workflows/DocGenerator.yml/badge.svg">
 </p>
 
-# Work in progress...
+## Table of contents
+
+- [Credits](#credits)
+  - [Project leaders](#project-leaders)
 
 ## Credits
 
